@@ -84,7 +84,7 @@ if ($_POST) {
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
@@ -126,7 +126,7 @@ if ($_POST) {
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="classes.php">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Classes</span>
                 </a>
@@ -135,7 +135,7 @@ if ($_POST) {
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="professeurs.php">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Professeurs</span>
                 </a>
@@ -143,7 +143,7 @@ if ($_POST) {
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="eleves.php">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Elèves</span>
                 </a>
@@ -275,100 +275,35 @@ if ($_POST) {
                     </form>
 
                     <table id="myTable">
-                    <thead>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Classe(s)</th>
-                        <th>Actions</th>
-                        <th>Supprimer</th>
+                        <thead>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Classe(s)</th>
+                            <th>Actions</th>
+                            <th>Supprimer</th>
                         </thead>
                         <tbody>
-                        <?php
-                        foreach ($resultat2 as $key => $value2) { ?>
-                            <tr>
-                                <td><?php echo $value2['nomProfesseur'] ?></td>
-                                <td><?php echo $value2['prenomProfesseur'] ?></td>
-                                <td>
-                                    <?php
-                                    foreach ($resultat3 as $key => $value3) {
-                                        if ($value3['idProfesseur'] === $value2['idProfesseur']) {
-                                            echo $value3['nomClasse'];
-                                            echo "&nbsp";
+                            <?php
+                            foreach ($resultat2 as $key => $value2) { ?>
+                                <tr>
+                                    <td><?php echo $value2['nomProfesseur'] ?></td>
+                                    <td><?php echo $value2['prenomProfesseur'] ?></td>
+                                    <td>
+                                        <?php
+                                        foreach ($resultat3 as $key => $value3) {
+                                            if ($value3['idProfesseur'] === $value2['idProfesseur']) {
+                                                echo $value3['nomClasse'];
+                                                echo "&nbsp";
+                                            }
                                         }
-                                    }
-                                    ?>
-                                </td>
-                                <td><a href="updateProfesseur?id=<?php echo $value2['idProfesseur'] ?>">Modifier</a></td>
-                                <td><a href="deleteProfesseur?id=<?php echo $value2['idProfesseur'] ?>" class="btn btn-danger btn-circle btn-sm "><i class="fas fa-trash"></i></a></td>
-                            </tr>
-                        <?php }
-                        ?>
-                        </tbody>
+                                        ?>
+                                    </td>
+                                    <td><a href="updateProfesseur?id=<?php echo $value2['idProfesseur'] ?>">Modifier</a></td>
+                                    <td><a href="deleteProfesseur?id=<?php echo $value2['idProfesseur'] ?>" class="btn btn-danger btn-circle btn-sm "><i class="fas fa-trash"></i></a></td>
+                                </tr>
+                            <?php } ?>
                     </table>
+                    <?php
+                    include 'footer.php';
 
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Nicolas Gicquel 2021</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable();
-        });
-    </script>
-
-
-</body>
-
-</html>
+                    ?>
