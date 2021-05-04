@@ -1,6 +1,26 @@
 <?php
 include_once("pdo.php");
 
+//Je récupère toutes les classes pour les afficher dans les checkbox
+$sql1 = $pdo->prepare("SELECT * FROM classes");
+$sql1->execute();
+
+$resultat1 = $sql1->fetchAll(PDO::FETCH_ASSOC);
+
+//Je récupère tous les professeurs pour les afficher 
+$sql2 = $pdo->prepare("SELECT nomProfesseur, prenomProfesseur, idProfesseur FROM Professeurs");
+$sql2->execute();
+
+$resultat2 = $sql2->fetchAll(PDO::FETCH_ASSOC);
+
+//Je récupère toutes les classe et les id de professeurs qui lui sont attachées
+$sql3 = $pdo->prepare("SELECT nomClasse, idProfesseur FROM Classes INNER JOIN Enseigne ON classes.idClasse = enseigne.idClasse");
+$sql3->execute();
+
+
+$resultat3 = $sql3->fetchAll(PDO::FETCH_ASSOC);
+
+//Si le formlaire de création de professeur est envoyé, je créé un professeur
 if ($_POST) {
     $nomProfesseur = $_POST['nomProfesseur'];
     $prenomProfesseur = $_POST['prenomProfesseur'];
@@ -16,24 +36,20 @@ if ($_POST) {
     ));
 }
 
-$sql2 = $pdo->prepare("SELECT * FROM classes");
-$sql2->execute();
+//Je récupère l'id du dernier professeur créer pour pouvoir dans un deuxième temps lui assigner une classe
+$sql4 = $pdo->prepare("SELECT MAX(idProfesseur) as lastIdProfesseur FROM `professeurs`");
+$sql4->execute();
 
 
-$resultat2 = $sql2->fetchAll(PDO::FETCH_ASSOC);
+$resultat4 = $sql4->fetch(PDO::FETCH_ASSOC);
 
-$sql3 = $pdo->prepare("SELECT MAX(idProfesseur) as lastIdProfesseur FROM `professeurs`");
-$sql3->execute();
-
-
-$resultat3 = $sql3->fetch(PDO::FETCH_ASSOC);
-
+//Si le formulaire est envoyé, j'assigne ou pas une classe au dernier professeur créé
 if ($_POST) {
-    for ($i = 0; $i < count($resultat2); $i++) {
+    for ($i = 0; $i < count($resultat1); $i++) {
         $checkbox = "classe$i";
         if (isset($_POST[$checkbox])) {
             $idClasse = $_POST[$checkbox];
-            $idProfesseur = $resultat3['lastIdProfesseur'];
+            $idProfesseur = $resultat4['lastIdProfesseur'];
             $sth = $pdo->prepare("
             INSERT INTO Enseigne(idProfesseur, idClasse)
             VALUES (:idProfesseur, :idClasse)
@@ -47,26 +63,6 @@ if ($_POST) {
     }
 }
 
-if ($_GET) {
-    $id = $_GET['id'];
-    $sql4 = $pdo->prepare("SELECT * FROM enseigne where idProfesseur =" . $id);
-    $sql4->execute();
-
-
-    $resultat4 = $sql4->fetch(PDO::FETCH_ASSOC);
-}
-
-$sql6 = $pdo->prepare("SELECT nomProfesseur, prenomProfesseur, idProfesseur FROM Professeurs");
-$sql6->execute();
-
-
-$resultat6 = $sql6->fetchAll(PDO::FETCH_ASSOC);
-
-$sql7 = $pdo->prepare("SELECT nomClasse, idProfesseur FROM Classes INNER JOIN Enseigne ON classes.idClasse = enseigne.idClasse");
-$sql7->execute();
-
-
-$resultat7 = $sql7->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +81,7 @@ $resultat7 = $sql7->fetchAll(PDO::FETCH_ASSOC);
         <input type="text" name="nomProfesseur">
         <input type="text" name="prenomProfesseur">
         <?php
-        foreach ($resultat2 as $key => $value) {
+        foreach ($resultat1 as $key => $value) {
 
         ?>
             <input type="checkbox" name="classe<?php echo $key ?>" value="<?php echo $value['idClasse'] ?>">
@@ -104,26 +100,26 @@ $resultat7 = $sql7->fetchAll(PDO::FETCH_ASSOC);
         <th>Supprimer</th>
 
         <?php
-        foreach ($resultat6 as $key => $value6) { ?>
+        foreach ($resultat2 as $key => $value2) { ?>
             <tr>
-                <td><?php echo $value6['nomProfesseur'] ?></td>
-                <td><?php echo $value6['prenomProfesseur'] ?></td>
+                <td><?php echo $value2['nomProfesseur'] ?></td>
+                <td><?php echo $value2['prenomProfesseur'] ?></td>
                 <td>
                     <?php
-                    foreach ($resultat7 as $key => $value7) {
-                        if ($value7['idProfesseur'] === $value6['idProfesseur']) {
-                            echo $value7['nomClasse'];
+                    foreach ($resultat3 as $key => $value3) {
+                        if ($value3['idProfesseur'] === $value2['idProfesseur']) {
+                            echo $value3['nomClasse'];
                             echo "&nbsp";
                         }
                     }
                     ?>
                 </td>
-                <td><a href="updateProfesseur?=<?php echo $value6['idProfesseur'] ?>">Modifier</a></td>
-                <td><a href="deleteProfesseur?=<?php echo $value6['idProfesseur'] ?>">X</a></td>
+                <td><a href="updateProfesseur?id=<?php echo $value2['idProfesseur'] ?>">Modifier</a></td>
+                <td><a href="deleteProfesseur?id=<?php echo $value2['idProfesseur'] ?>">X</a></td>
             </tr>
         <?php }
         ?>
-        
+
 
     </table>
 
