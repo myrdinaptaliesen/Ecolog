@@ -123,6 +123,7 @@ $resultat7 = $sql7->fetchAll(PDO::FETCH_ASSOC);
             </tr>
         <?php }
         ?>
+        
 
     </table>
 
