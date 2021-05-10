@@ -76,6 +76,7 @@ include 'header.php';
 <form action="professeurs.php" method="post">
     <input type="text" name="nomProfesseur" placeholder="Nom">
     <input type="text" name="prenomProfesseur" placeholder="Prénom">
+    <div class="classInput">
     <?php
     foreach ($resultat1 as $key => $value) {
 
@@ -85,6 +86,7 @@ include 'header.php';
     <?php
     }
     ?>
+    </div>
     <input type="submit" value="Créer un nouveau professeur">
 </form>
 
@@ -94,7 +96,7 @@ include 'header.php';
         <th>Prénom</th>
         <th>Classe(s)</th>
         <th>Actions</th>
-        <th>Supprimer</th>
+        <th class="deleteTh">Supprimer</th>
     </thead>
     <tbody>
         <?php
@@ -113,7 +115,7 @@ include 'header.php';
                     ?>
                 </td>
                 <td><a href="updateProfesseur?id=<?php echo $value2['idProfesseur'] ?>">Modifier</a></td>
-                <td><a href="deleteProfesseur?id=<?php echo $value2['idProfesseur'] ?>" class="btn btn-danger btn-circle btn-sm "><i class="fas fa-trash"></i></a></td>
+                <td><a href="deleteProfesseur?id=<?php echo $value2['idProfesseur'] ?>" class="btn btn-danger btn-circle btn-sm deleteButton"><i class="fas fa-trash"></i></a></td>
             </tr>
         <?php } ?>
 </table>

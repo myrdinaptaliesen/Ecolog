@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -42,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="home.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Tableau de bord</span></a>
             </li>
@@ -58,7 +59,7 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="classes.php">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-users"></i></i>
                     <span>Classes</span>
                 </a>
 
@@ -67,7 +68,7 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="professeurs.php">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-chalkboard-teacher"></i>
                     <span>Professeurs</span>
                 </a>
 
@@ -75,8 +76,16 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="eleves.php">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-child"></i>
                     <span>Elèves</span>
+                </a>
+
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="eleves.php">
+                    <i class="fas fa-user-cog"></i>
+                    <span>Utilisateurs</span>
                 </a>
 
             </li>
