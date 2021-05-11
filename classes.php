@@ -12,17 +12,17 @@ if ($_POST) {
     $sth->execute(array(
         ':nomClasse' => $nomClasse
     ));
+
 }
 
-if ($_GET) {
-    $id = $_GET['id'];
-    $sql1 = $pdo->prepare("SELECT * FROM classes where idClasse =" . $id);
+
+    $sql1 = $pdo->prepare("SELECT * FROM classes");
     $sql1->execute();
 
 
-    $resultat = $sql1->fetch(PDO::FETCH_ASSOC);
-    var_dump($resultat);
-}
+    $resultat = $sql1->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 include 'header.php';
 ?>
@@ -33,22 +33,36 @@ include 'header.php';
     <h1 class="h3 mb-0 text-gray-800">Gestion des classes</h1>
     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
 </div>
-<?php
-if ($_GET) {
-    $id = $_GET['id'] ?>
-    <form action="classes.php" method="post">
-        <input type="text" name="nomClass" value="<?php echo $resultat['nomClasse'] ?>">
-        <input type="submit" value="Modifier la classe">
-    </form>
-<?php
-} else {
-?>
+
     <form action="classes.php" method="post">
         <input type="text" name="nomClass">
         <input type="submit" value="Créer une nouvelle classe">
     </form>
-<?php }
 
+
+<table>
+    <thead>
+        <th>Libéllé de  la classe</th>
+        <th>Action</th>
+        <th>supprimer</th>
+    </thead>
+    <tbody>
+    <?php
+foreach ($resultat as $key => $value) {
+
+    ?>
+        <tr>
+        <td><?php echo $value['nomClasse'] ?></td>
+                <td><a href="updateClasse?id=<?php echo $value['idClasse'] ?>">Modifier</a></td>
+                <td><a href="deleteClasse?id=<?php echo $value['idClasse'] ?>" class="btn btn-danger btn-circle btn-sm deleteButton"><i class="fas fa-trash"></i></a></td>
+        </tr>
+        <?php
+
+}
+        ?>
+    </tbody>
+</table>
+<?php
 include 'footer.php';
 ?>
 

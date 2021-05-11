@@ -1,13 +1,13 @@
 <?php
 include_once("pdo.php");
 $id = $_GET['id'];
-$sql = $pdo->prepare("SELECT * FROM professeurs WHERE idProfesseur = $id");
+$sql = $pdo->prepare("SELECT * FROM classe WHERE idClasse = $id");
 $sql->execute();
 
 $resultat = $sql->fetch(PDO::FETCH_ASSOC);
 
 if ($_POST) {
-    $nomProfesseur = $_POST['nomProfesseur'];
+    $nomClasse = $_POST['nomClasse'];
     $prenomProfesseur = $_POST['prenomProfesseur'];
     $sql1 = $pdo->prepare("UPDATE professeurs SET nomProfesseur = :nomProfesseur, prenomProfesseur = :prenomProfesseur WHERE idProfesseur = $id");
     $sql1->execute(array(

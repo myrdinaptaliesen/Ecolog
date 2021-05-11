@@ -11668,3 +11668,8 @@ form {
 .deleteTh {
     text-align: center;
 }
+
+input {
+    margin: 10px;
+    border-radius: 4px;
+}
